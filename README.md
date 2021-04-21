@@ -1,2 +1,5 @@
-# Algo_Glouton-Sac_a_dos-
-Expérimentation d'un algorithme glouton
+# TrainingAlgorithms-NSI-
+Divers algorithmes de NSI (1ere):
+  - Expérimentation d'un algorithme glouton
+  - Binary Search / Recherche dichotomique
+  - K plus proches voisins
