@@ -34,11 +34,7 @@ def Solution(objets, pmax):
     
     return solution
 
-        
-
-
-
-if __name__=='__main__': # test
+def main():
     objets = [[12,4],[2,2],[1,1],[4,10],[1,2]]
     pmax = 15
 
@@ -57,3 +53,8 @@ if __name__=='__main__': # test
 
     print("Valeur totale :",vtotale)
     print("poids final :",pfinal)
+
+
+
+if __name__=='__main__': # test
+    main()
