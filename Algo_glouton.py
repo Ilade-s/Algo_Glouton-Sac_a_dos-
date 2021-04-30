@@ -4,14 +4,14 @@ Algorithme de résolution approchée du problème du sac à dos :
 """
 from random import randint
 
-def Solution(objets, pmax):
+def Solution(objets, W):
     """
     Selon une liste d'objets avec une valeur et un poids, renvoie une solution approchée permettant la plus grande valeur possible dans le sac (avec un poids donné)
     
     PARAMETRES :
         - objets : list[list[poids: int, valeur: int]]
             - liste des objets disponibles
-        - pmax : int
+        - W : int
             poids maximal du sac
 
     SORTIE : 
@@ -21,14 +21,15 @@ def Solution(objets, pmax):
     # Evalution rapport valeur/poids
     listRapport = [round(obj[1]/obj[0],4) for obj in objets]
 
-    psac = 0
+    iW = 0
     solution = []
-    while psac<pmax:
+    while iW<W:
         imax = listRapport.index(max(listRapport))
-        if objets[imax][0]+psac<=pmax:
+        (w,p) = objets[imax]
+        if w+iW<=W:
+            iW += w
             solution.append(objets.pop(imax))
-            listRapport.pop(imax)
-            psac += solution[-1][0]
+            listRapport.pop(imax) 
         else:
             break
     
@@ -36,15 +37,15 @@ def Solution(objets, pmax):
 
 def main():
     objets = [[12,4],[2,2],[1,1],[4,10],[1,2]]
-    pmax = 15
+    W = 15
 
     nobjets = int(input("nombre d'objets : "))
     objets = [[randint(1,20),randint(1,20)] for i in range(nobjets)]
-    pmax = int(input("poids maximal : "))
+    W = int(input("poids maximal : "))
     print(objets)
-    print("poids maximal :",pmax)
+    print("poids maximal :",W)
 
-    sol = Solution(objets,pmax)
+    sol = Solution(objets,W)
 
     print("Solution :",sol)
 
