@@ -16,8 +16,9 @@ def KVoisins(ano, database:list[list], K=3):
         - K : int
             - nombre de plus proches voisins à exploiter
     SORTIE :
-        - iD : any
-            - type identifié de la donnée ano
+        - retval : (iD,prob)
+            - iD : type identifié de la donnée ano
+            - prob : probabilité que le type identifié soit correct
     """
     iD = ""
     distances = [[item[0],sqrt(sum([(ano[i]-item[i+1])**2 for i in range(len(ano))]))] for item in database]
@@ -25,13 +26,17 @@ def KVoisins(ano, database:list[list], K=3):
     dictt = {}
     typeList = list(set([kv[0] for kv in kvList]))
     vmax = 0
+    tot = 0
     for t in typeList:
-        dictt[t] = len([i for i in typeList if i[0]==t])
+        v = len([i for i in typeList if i[0]==t])
+        dictt[t] = v
+        tot += v
         if dictt[t]>vmax:
             iD = t
             vmax = dictt[t]
+    prob = round(vmax/tot*100,3)
 
-    return iD
+    return (iD,prob)
 
 
 if __name__=='__main__': # test
@@ -46,5 +51,7 @@ if __name__=='__main__': # test
         ["F",171,59]
     ]
     ano = [169,65]
-    iD = KVoisins(ano, db)
+    retval = KVoisins(ano, db)
+    (iD, prob) = retval
     print(f"type de donnée : {iD}")
+    print(f"Probabilité : {prob}%")
