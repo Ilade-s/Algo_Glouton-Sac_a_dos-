@@ -72,3 +72,4 @@ if __name__ == '__main__':  # test
     (iD, prob) = retval
     print(f"type de donnée : {iD}")
     print(f"Probabilité : {prob}%")
+    input("Press Enter to exit...")
