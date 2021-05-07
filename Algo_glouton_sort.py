@@ -21,11 +21,11 @@ def Solution(objets, W):
     # Evalution rapport valeur/poids
     def Getkey(obj):
         return (obj[1]/obj[0])
-    objets.sort(key=Getkey,reverse=True)
+    objs = sorted(objets,key=Getkey,reverse=True)
     # boucle d'ajout des objets
     iW = 0
     solution = []
-    for obj in objets:
+    for obj in objs:
         (w,p) = obj
         if w+iW<=W:
             iW += w
