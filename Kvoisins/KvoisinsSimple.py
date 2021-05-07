@@ -3,7 +3,7 @@ Implémentation simple (2D/carac) d'un algo des k plus proches voisins
 """
 from math import sqrt
 
-def KVoisins(ano, database:list[list], K=3):
+def KVoisins(ano, database:list[list], K=3, typeindex=0):
     """
     Donne le type de la nouvelle valeur selon les données preétablies
 
@@ -11,20 +11,25 @@ def KVoisins(ano, database:list[list], K=3):
         - doivent avoir le même nombre de paramètres
         - ano : tuple | list
             - donnée anonyme à identifier
-        - database : dict{list}
-            - dictionnaire des données identifiées (clés = type ; data = carac)
+        - database : list[list]
+            - tableau 2D des données identifiées 
         - K : int
             - nombre de plus proches voisins à exploiter
+            - default = 3
+        - typeindex : int
+            - index des données de titre
+            - default = 0
     SORTIE :
         - retval : (iD,prob)
             - iD : type identifié de la donnée ano
             - prob : probabilité que le type identifié soit correct (en %)
     """
+    DBSt = [[item[i] for i in range(len(item)) if i!=typeindex] for item in database]
     iD = ""
-    distances = [[item[0],sqrt(sum([(ano[i]-item[i+1])**2 for i in range(len(ano))]))] for item in database]
+    distances = [[itemt[0],sqrt(sum([(ano[i]-item[i])**2 for i in range(len(ano))]))] for item in DBSt for itemt in database]
     kvList = sorted(distances)[:K]
     dictt = {}
-    typeList = list(set([kv[0] for kv in kvList]))
+    typeList = list(set([kv[typeindex] for kv in kvList]))
     vmax = 0
     tot = 0
     for t in typeList:
