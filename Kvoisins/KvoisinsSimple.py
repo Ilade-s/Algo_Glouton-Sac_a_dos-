@@ -18,7 +18,7 @@ def KVoisins(ano, database:list[list], K=3):
     SORTIE :
         - retval : (iD,prob)
             - iD : type identifié de la donnée ano
-            - prob : probabilité que le type identifié soit correct
+            - prob : probabilité que le type identifié soit correct (en %)
     """
     iD = ""
     distances = [[item[0],sqrt(sum([(ano[i]-item[i+1])**2 for i in range(len(ano))]))] for item in database]
