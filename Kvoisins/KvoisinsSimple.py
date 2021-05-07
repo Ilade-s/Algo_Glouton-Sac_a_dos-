@@ -24,16 +24,16 @@ def KVoisins(ano, database:list[list], K=3, typeindex=0):
             - iD : type identifié de la donnée ano
             - prob : probabilité que le type identifié soit correct (en %)
     """
-    DBSt = [[item[i] for i in range(len(item)) if i!=typeindex] for item in database]
     iD = ""
-    distances = [[itemt[0],sqrt(sum([(ano[i]-item[i])**2 for i in range(len(ano))]))] for item in DBSt for itemt in database]
+    distances = [[item[typeindex],sqrt(sum([(ano[i]-float(item[i]))**2 for i in range(len(ano)) if i!=typeindex]))] for item in database]
     kvList = sorted(distances)[:K]
     dictt = {}
-    typeList = list(set([kv[typeindex] for kv in kvList]))
+    typeList = list(set([kv[0] for kv in kvList]))
     vmax = 0
     tot = 0
+    print(typeList)
     for t in typeList:
-        v = len([i for i in typeList if i[0]==t])
+        v = len([i for i in kvList if i[0]==t])
         dictt[t] = v
         tot += v
         if dictt[t]>vmax:
