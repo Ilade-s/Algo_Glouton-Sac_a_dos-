@@ -38,7 +38,7 @@ def KVoisins(ano, database=[[]], K=3, typeindex=0, csvfile=""):
         return e[1]
     iD = ""
     distances = [[item[typeindex], sqrt(sum(
-        [(ano[i]-float(item[i]))**2 for i in range(len(ano)) if i != typeindex]))] 
+        (ano[i]-float(item[i]))**2 for i in range(len(ano)) if i != typeindex))] 
             for item in database]
     kvList = sorted(distances,key=GetKey)[:K]
     dictt = {}
