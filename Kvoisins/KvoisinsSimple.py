@@ -5,7 +5,7 @@ from math import sqrt
 import csv
 from os import getcwd
 
-def KVoisins(ano, database=[[]], K=3, typeindex=0, csvfile=""):
+def KVoisins(ano, database=[[]], K=3, typeindex=0, csvfile="", readlimit=None):
     """
     Donne le type de la nouvelle valeur selon les données preétablies
 
@@ -24,6 +24,9 @@ def KVoisins(ano, database=[[]], K=3, typeindex=0, csvfile=""):
         - csvfile : str
             - nom (sans extension) du fichier csv à exploiter entièrement
             - si vide, sera ignoré et database sera utilisé
+        - readlimit : int | None
+            - limites de lecture du fichier csv si demandé
+
     SORTIE :
         - retval : (iD,prob)
             - iD : type identifié de la donnée ano
@@ -32,7 +35,11 @@ def KVoisins(ano, database=[[]], K=3, typeindex=0, csvfile=""):
     if csvfile!="": # Ouverture d'un fichier csv si donné
         with open(f"{getcwd()}\\Kvoisins\\{csvfile}.csv", 'r', encoding="utf-8", newline='') as file:
             dbR = csv.reader(file, delimiter=",")
-            database = [i for i in dbR][1:]
+            if readlimit==None:   
+                database = [i for i in dbR][1:]
+            else:
+                database = [i for i in dbR][1:]
+                database = database[:readlimit]
 
     def GetKey(e):
         return e[1]
@@ -67,8 +74,8 @@ if __name__ == '__main__':  # test
         ["H", 184, 78],
         ["F", 171, 59]
     ]
-    ano = [4.1,1.0,5.9,2.1]
-    retval = KVoisins(ano, db, csvfile="iris", typeindex=4, K=5)
+    ano = [1,0,0,0,12,13,5,0,0,0,0,0,11,16,9,0,0,0,0,3,15,16,6,0,0,0,7,15,16,16,2,0,0,0,0,1,16,16,3,0,0,0,0,1,16,16,6,0,0,0,0,1,16,16,6,0,0,0,0,0,11,16,10,0,0]
+    retval = KVoisins(ano, db, csvfile="digits", typeindex=0, K=5, readlimit=1000)
     (iD, prob) = retval
     print(f"type de donnée : {iD}")
     print(f"Probabilité : {prob}%")
