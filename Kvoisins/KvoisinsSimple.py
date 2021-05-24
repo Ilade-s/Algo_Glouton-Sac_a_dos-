@@ -1,9 +1,11 @@
 """
 Implémentation simple (2D/carac) d'un algo des k plus proches voisins
+Taux de réussite : 60.49% (1087/1797)
 """
 from math import sqrt
 import csv
 from os import getcwd
+import random
 
 def KVoisins(ano, database=[[]], K=3, typeindex=0, csvfile="", readlimit=None):
     """
@@ -45,7 +47,7 @@ def KVoisins(ano, database=[[]], K=3, typeindex=0, csvfile="", readlimit=None):
         return e[1]
     iD = ""
     distances = [[item[typeindex], sqrt(sum(
-        (ano[i]-float(item[i]))**2 for i in range(len(ano)) if i != typeindex))] 
+        (int(float(ano[i]))-int(float(item[i])))**2 for i in range(len(ano)) if i != typeindex))] 
             for item in database]
     kvList = sorted(distances,key=GetKey)[:K]
     dictt = {}
@@ -63,20 +65,30 @@ def KVoisins(ano, database=[[]], K=3, typeindex=0, csvfile="", readlimit=None):
 
     return (iD, prob)
 
-if __name__ == '__main__':  # test
-    db = [
-        ["H", 178, 72],
-        ["H", 174, 72],
-        ["F", 163, 55],
-        ["F", 168, 58],
-        ["H", 181, 98],
-        ["F", 170, 60],
-        ["H", 184, 78],
-        ["F", 171, 59]
-    ]
-    ano = [1,0,0,0,12,13,5,0,0,0,0,0,11,16,9,0,0,0,0,3,15,16,6,0,0,0,7,15,16,16,2,0,0,0,0,1,16,16,3,0,0,0,0,1,16,16,6,0,0,0,0,1,16,16,6,0,0,0,0,0,11,16,10,0,0]
-    retval = KVoisins(ano, db, csvfile="digits", typeindex=0, K=5, readlimit=1000)
+def main():
+    ano = [0,0,0,12,13,5,0,0,0,0,0,11,16,9,0,0,0,0,3,15,16,6,0,0,0,7,15,16,16,2,0,0,0,0,1,16,16,3,0,0,0,0,1,16,16,6,0,0,0,0,1,16,16,6,0,0,0,0,0,11,16,10,0,0]
+    retval = KVoisins(ano, csvfile="digits", typeindex=0, K=5)
     (iD, prob) = retval
     print(f"type de donnée : {iD}")
     print(f"Probabilité : {prob}%")
-    input("Press Enter to exit...")
+
+def verif(csvfile,readlimit=1797):
+    nC = 0
+    with open(f"{getcwd()}\\Kvoisins\\{csvfile}.csv", 'r', encoding="utf-8", newline='') as file:
+        dbR = csv.reader(file, delimiter=",")
+        dball = [i for i in dbR]
+        random.shuffle(dball)
+        db = dball[:readlimit]
+        for element in db:
+            trueValue = element[0]
+            ano = element[1:]
+            retval = KVoisins(ano, dball, typeindex=0, K=5)
+            (iD, prob) = retval
+            if iD==trueValue:
+                nC += 1
+            print(db.index(element))
+    print(f"Taux de réussite : {round(nC/len(db)*100, 3)}% ({nC}/{len(db)})")
+
+if __name__ == '__main__':  # test
+    #main()
+    verif("digits",50)
